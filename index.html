@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body style="background:black;color:white;text-align:center;font-family:Arial;">
+
+<h1>ðŸ”¥ Generador + Ventas AutomÃ¡ticas</h1>
+
+<input id="nicho" placeholder="dinero, fitness, lujo">
+<br><br>
+<button onclick="gen()">Generar Video</button>
+
+<div id="res"></div>
+
+<script>
+async function gen() {
+  const nicho = document.getElementById("nicho").value;
+
+  const res = await fetch("/generar", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ nicho })
+  });
+
+  const data = await res.json();
+
+  document.getElementById("res").innerHTML = `
+    <h2>${data.mensaje}</h2>
+
+    <video src="${data.video}" controls width="300"></video>
+    <br><br>
+
+    <a href="${data.video}" download style="color:lightgreen;">â¬‡ Descargar Video</a>
+
+    <br><br>
+
+    <a href="${data.link}" target="_blank" 
+       style="background:green;padding:10px 20px;color:white;text-decoration:none;">
+       ðŸ’° Ir a aprender (Venta)
+    </a>
+  `;
+}
+</script>
+
+</body>
+</html>
